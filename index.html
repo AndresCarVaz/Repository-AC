@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repositorio AC</title>
+<style>
+  :root{
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --active: #00e5ff; 
+    --text: #ccc;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background: var(--bg);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    color: var(--text);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    gap:40px;
+  }
+
+  h1{
+    font-size:42px;
+    font-weight:800;
+    color:white;
+    text-shadow:0 0 18px rgba(0,0,0,0.6);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:25px;
+    width:90%;
+    max-width:600px;
+    position:relative; 
+  }
+
+  .card{
+    background: var(--card-bg);
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:30px 10px;
+    gap:10px;
+    cursor:pointer;
+    transition: all .3s ease;
+    text-align:center;
+    z-index:1; 
+  }
+
+  .card .icon{
+    font-size:32px;
+    color:#aaa;
+    transition: color .3s ease, transform .3s ease, text-shadow .3s ease;
+  }
+
+  .card span{
+    font-size:14px;
+    font-weight:600;
+    color:#aaa;
+    transition: color .3s ease;
+  }
+
+  .card:hover .icon,
+  .card:hover span{
+    color: var(--active);
+    text-shadow:0 0 15px var(--active);
+    transform: scale(1.1);
+  }
+
+  a{
+    text-decoration:none;
+  }
+
+  .highlight{
+    position:absolute;
+    width:calc(100% / 3 - 25px); 
+    height:calc(100% / 3 - 25px);
+    border-radius:12px;
+    box-shadow:0 0 25px var(--active), inset 0 0 15px rgba(0,229,255,0.6);
+    border:2px solid var(--active);
+    pointer-events:none;
+    transition: transform .3s ease;
+    z-index:0;
+  }
+</style>
+</head>
+<body>
+
+<h1>Repositorio ANdres Cardenas</h1>
+
+<div class="grid" id="grid">
+  <div class="highlight" id="highlight"></div> <!-- Recuadro de neón -->
+
+  <a href="#"><div class="card"><div class="icon">👤</div><span>Quien Soy</span></div></a>
+  <a href="#"><div class="card"><div class="icon">📄</div><span>Hoja de Vida</span></div></a>
+  <a href="#"><div class="card"><div class="icon">🛒</div><span>Tienda Bikecomerce</span></div></a>
+  <a href="#"><div class="card"><div class="icon">🧮</div><span>Calculadora</span></div></a>
+  <a href="#"><div class="card"><div class="icon">📍</div><span>Lugares</span></div></a>
+  <a href="#"><div class="card"><div class="icon">📋</div><span>CRUD</span></div></a>
+  <!-- RestApp con link a GitHub -->
+  <a href="./restapp/restapp.html" target="_blank">
+    <div class="card"><div class="icon">🍽️</div><span>Restaurante RestApp</span></div>
+    
+  </a>
+  <a href="./chatbot gemini/index.html"><div class="card"><div class="icon">📃</div><span>chatbot</span></div></a>
+  <a href="#"><div class="card"><div class="icon">🎮</div><span>Race Game</span></div></a>
+</div>
+
+<script>
+  const cards = document.querySelectorAll(".card");
+  const highlight = document.getElementById("highlight");
+  let selected = null;
+
+  function moveHighlight(el){
+    const grid = document.getElementById("grid");
+    const rectGrid = grid.getBoundingClientRect();
+    const rectEl = el.getBoundingClientRect();
+
+    const x = rectEl.left - rectGrid.left;
+    const y = rectEl.top - rectGrid.top;
+
+    highlight.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+ 
+  cards.forEach(card=>{
+    card.addEventListener("mouseenter", ()=> {
+      if(!selected) moveHighlight(card);
+    });
+    card.addEventListener("click", ()=> { 
+      selected = card; 
+      moveHighlight(card); 
+    });
+  });
+
+  document.getElementById("grid").addEventListener("mouseleave", ()=>{
+    if(selected){
+      moveHighlight(selected);
+    }
+  });
+
+ 
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,410 @@
+/* Fuente futurista */
+body {
+  background: radial-gradient(circle at center, #0a0a0a, #000000);
+  font-family: "Orbitron", sans-serif;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Contenedor estilo controlador */
+.dj-controller {
+  position: relative;
+  background: #111;
+  border: 2px solid cyan;
+  border-radius: 20px;
+  box-shadow: 0 0 30px cyan;
+  width: 90%;
+  max-width: 1000px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Pantalla central */
+.screen {
+  background: #000;
+  border: 2px solid cyan;
+  border-radius: 15px;
+  padding: 15px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 500px;
+  box-shadow: 0 0 20px cyan inset;
+}
+
+/* Header */
+.chat-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.chat-header h1 {
+  font-size: 24px;
+  color: cyan;
+  text-shadow: 0 0 10px cyan, 0 0 20px cyan;
+  margin-bottom: 10px;
+}
+
+.chat-header p {
+  color: #aaa;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* Selección de equipos */
+.team-selection {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.team-btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 2px solid;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-family: "Orbitron", sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  text-align: center;
+  min-width: 120px;
+}
+
+.team-btn small {
+  display: block;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.team-vinilos {
+  border-color: orange;
+  color: orange;
+  box-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
+}
+
+.team-vinilos:hover {
+  background: rgba(255, 165, 0, 0.1);
+  box-shadow: 0 0 25px rgba(255, 165, 0, 0.5);
+}
+
+.team-vinilos.active {
+  background: rgba(255, 165, 0, 0.2);
+  box-shadow: 0 0 30px orange;
+}
+
+.team-controladores {
+  border-color: lime;
+  color: lime;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+.team-controladores:hover {
+  background: rgba(0, 255, 0, 0.1);
+  box-shadow: 0 0 25px rgba(0, 255, 0, 0.5);
+}
+
+.team-controladores.active {
+  background: rgba(0, 255, 0, 0.2);
+  box-shadow: 0 0 30px lime;
+}
+
+/* Equipo seleccionado */
+.selected-team {
+  color: cyan;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px cyan;
+}
+
+/* Mensajes */
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  border-top: 2px solid cyan;
+  border-bottom: 2px solid cyan;
+  padding: 15px;
+  margin: 15px 0;
+  max-height: 400px;
+}
+
+.message {
+  margin: 12px 0;
+  padding: 12px;
+  border-radius: 10px;
+  max-width: 85%;
+  word-wrap: break-word;
+}
+
+.ai-message {
+  background: rgba(255, 0, 255, 0.2);
+  border: 1px solid magenta;
+  color: #ff66ff;
+  box-shadow: 0 0 10px magenta;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.user-message {
+  background: rgba(0, 255, 255, 0.2);
+  border: 1px solid cyan;
+  color: #00ffff;
+  margin-left: auto;
+  box-shadow: 0 0 10px cyan;
+}
+
+.dj-message {
+  margin-right: auto;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.dj-message.dj-vinilos {
+  background: rgba(255, 165, 0, 0.2);
+  border: 1px solid orange;
+  color: orange;
+  box-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
+}
+
+.dj-message.dj-controladores {
+  background: rgba(0, 255, 0, 0.2);
+  border: 1px solid lime;
+  color: lime;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+.typing-indicator {
+  background: rgba(255, 255, 0, 0.15);
+  border: 1px solid gold;
+  color: gold;
+  animation: pulse 1.5s infinite;
+  font-style: italic;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.dj-avatar {
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+/* Input */
+.chat-input {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+#user-input {
+  flex-grow: 1;
+  padding: 12px;
+  border: 1px solid cyan;
+  border-radius: 10px;
+  background: #000;
+  color: cyan;
+  font-family: "Orbitron", sans-serif;
+  outline: none;
+  box-shadow: 0 0 10px cyan inset;
+  font-size: 14px;
+}
+
+#user-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: #666;
+  border-color: #666;
+}
+
+.btn.neon {
+  margin-left: 15px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: none;
+  background: cyan;
+  color: #000;
+  font-weight: bold;
+  font-family: "Orbitron", sans-serif;
+  cursor: pointer;
+  text-shadow: 0 0 10px #000;
+  box-shadow: 0 0 15px cyan;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn.neon:hover:not(:disabled) {
+  background: #0ff;
+  box-shadow: 0 0 25px #0ff;
+  transform: translateY(-2px);
+}
+
+.btn.neon:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #666;
+  box-shadow: none;
+}
+
+/* Botones Hotcue */
+.hotcues {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hotcue-btn {
+  width: 180px;
+  height: 50px;
+  border-radius: 25px;
+  font-size: 14px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: "Orbitron", sans-serif;
+  color: white;
+  text-shadow: 0 0 5px #000;
+  transition: all 0.3s ease;
+}
+
+.hotcue-btn.red {
+  background: linear-gradient(45deg, #ff0000, #cc0000);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+.hotcue-btn.red:hover:not(:disabled) {
+  background: linear-gradient(45deg, #ff3333, #ff0000);
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+  transform: translateY(-2px);
+}
+
+.hotcue-btn.blue {
+  background: linear-gradient(45deg, #0066ff, #0044cc);
+  box-shadow: 0 0 20px rgba(0, 102, 255, 0.5);
+}
+
+.hotcue-btn.blue:hover:not(:disabled) {
+  background: linear-gradient(45deg, #3388ff, #0066ff);
+  box-shadow: 0 0 30px rgba(0, 102, 255, 0.8);
+  transform: translateY(-2px);
+}
+
+.hotcue-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Faders */
+.fader {
+  position: absolute;
+  width: 12px;
+  height: 200px;
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 10px cyan inset;
+}
+
+.fader::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 45%;
+  width: 24px;
+  height: 18px;
+  background: linear-gradient(45deg, cyan, #00aaaa);
+  border-radius: 8px;
+  transform: translateY(-50%);
+  box-shadow: 0 0 15px cyan;
+}
+
+.left-fader {
+  left: -45px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.right-fader {
+  right: -45px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Scrollbar personalizado */
+.chat-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: cyan;
+  border-radius: 10px;
+  box-shadow: 0 0 10px cyan;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #00ffff;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .dj-controller {
+    width: 95%;
+    padding: 15px;
+  }
+  
+  .screen {
+    width: 95%;
+    min-height: 400px;
+  }
+  
+  .hotcues {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  .hotcue-btn {
+    width: 140px;
+    height: 45px;
+    font-size: 12px;
+  }
+  
+  .fader {
+    display: none;
+  }
+  
+  .team-selection {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .team-btn {
+    min-width: auto;
+    width: 100%;
+  }
+}

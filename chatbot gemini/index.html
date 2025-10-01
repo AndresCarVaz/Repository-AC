@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debate DJs - Vinilos vs Controladores</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Estilos adicionales para el selector de temas */
+    .tema-selection {
+      margin: 15px 0;
+      text-align: center;
+    }
+    
+    .tema-selection label {
+      display: block;
+      color: #ffff00;
+      font-size: 14px;
+      margin-bottom: 8px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #ffff00;
+    }
+    
+    .tema-selector {
+      width: 90%;
+      max-width: 400px;
+      padding: 10px;
+      border: 2px solid #ffff00;
+      border-radius: 10px;
+      background: #000;
+      color: #ffff00;
+      font-family: "Orbitron", sans-serif;
+      font-size: 12px;
+      outline: none;
+      box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .tema-selector:focus {
+      box-shadow: 0 0 25px rgba(255, 255, 0, 0.6);
+      border-color: #fff700;
+    }
+    
+    .tema-selector option {
+      background: #000;
+      color: #ffff00;
+      padding: 5px;
+    }
+    
+    /* Botón verde para debate por tema */
+    .hotcue-btn.green {
+      background: linear-gradient(45deg, #00ff00, #00cc00);
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    }
+    
+    .hotcue-btn.green:hover:not(:disabled) {
+      background: linear-gradient(45deg, #33ff33, #00ff00);
+      box-shadow: 0 0 30px rgba(0, 255, 0, 0.8);
+      transform: translateY(-2px);
+    }
+    
+    /* Ajustar hotcues para 3 botones */
+    .hotcues {
+      gap: 10px;
+    }
+    
+    .hotcue-btn {
+      width: 160px;
+      height: 45px;
+      font-size: 12px;
+    }
+    
+    /* Responsive para el selector */
+    @media (max-width: 768px) {
+      .tema-selector {
+        width: 95%;
+        font-size: 11px;
+      }
+      
+      .hotcue-btn {
+        width: 120px;
+        height: 40px;
+        font-size: 10px;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dj-controller">
+    
+    <!-- Faders laterales -->
+    <div class="fader left-fader"></div>
+    <div class="fader right-fader"></div>
+    
+    <!-- Pantalla central (chat) -->
+    <div class="screen">
+      <div class="chat-header">
+        <h1>🎧 vs 🎛️ Debate de DJs</h1>
+        <p>Elige tu equipo para empezar el debate:</p>
+        <div class="team-selection">
+          <button id="select-vinilos" class="team-btn team-vinilos">
+            🎧 DJ Vinyl<br><small>(Vinilos)</small>
+          </button>
+          <button id="select-controladores" class="team-btn team-controladores">
+            🎛️ DJ Sync<br><small>(Controladores)</small>
+          </button>
+        </div>
+        <div id="selected-team" class="selected-team">
+          Selecciona tu equipo primero
+        </div>
+        
+        <!-- Nuevo: Selector de tema -->
+        <div class="tema-selection">
+          <label for="tema-selector"> Tema para debate automático:</label>
+          <select id="tema-selector" class="tema-selector">
+            <option value="">-- Selecciona un tema --</option>
+            <option value="¿El vinilo tiene mejor sonido que lo digital?"> Calidad de sonido: Vinilo vs Digital</option>
+            <option value="Uso de controladores standalone vs tornamesas clásicas">⚡ Standalone vs Tornamesas clásicas</option>
+            <option value="¿Software Virtual DJ es mejor que Serato?"> Virtual DJ vs Serato</option>
+            <option value="Rekordbox vs otros softwares: ventajas"> Rekordbox vs otros softwares</option>
+            <option value="¿Un DJ sin laptop puede ser profesional?"> ¿DJ profesional sin laptop?</option>
+            <option value="Autenticidad vs innovación"> Autenticidad vs Innovación</option>
+            <option value="Mantenimiento de vinilos vs comodidad digital"> Mantenimiento vs Comodidad</option>
+            <option value="Peso, transporte y practicidad en el equipo"> Transporte y practicidad</option>
+            <option value="Costo inicial del vinilo vs controlador"> Costos: Vinilo vs Controlador</option>
+            <option value="Efectos, loops y creatividad: software vs vinilo"> Efectos y creatividad</option>
+          </select>
+        </div>
+      </div>
+      
+      <div id="chat-messages" class="chat-messages">
+        <div class="message ai-message">
+          ¡Bienvenido al debate de DJs! Selecciona tu equipo arriba y escribe tus argumentos, 
+          o escoge un tema y presiona "Debate por Tema" para ver la discusión específica.
+          <br><br>
+          <strong>Instrucciones:</strong><br>
+          1️ Selecciona un equipo para modo individual<br>
+          2 O elige un tema del dropdown y presiona "Debate por Tema"<br>
+          3 O presiona "Debate Automático" para 5 temas aleatorios
+        </div>
+      </div>
+      
+      <div class="chat-input">
+        <form id="chat-form">
+          <input type="text" id="user-input" placeholder="💬 Primero selecciona tu equipo..." disabled autocomplete="off">
+          <button type="submit" class="btn neon" disabled>Enviar 🚀</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Botones estilo hot cues -->
+    <div class="hotcues">
+      <button id="auto-debate" class="hotcue-btn red">⚡ Debate Automático</button>
+      <button id="custom-debate" class="hotcue-btn green">🎯 Debate por Tema</button>
+      <button id="clear-chat" class="hotcue-btn blue">🗑️ Limpiar Chat</button>
+    </div>
+    
+  </div>
+  
+  <script type="module" src="script.js"></script>
+</body>
+</html>
