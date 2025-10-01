@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Main Menu</title>
+  <link rel="stylesheet" href="stylemainmenu.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: rgb(0, 15, 21);
+      overflow: hidden;
+    }
+
+    /* Video de fondo */
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      mask: url(#text-mask);
+      -webkit-mask: url(#text-mask);
+    }
+
+    .svg-mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 280px;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 20, 0.9) 100%);
+      backdrop-filter: blur(15px);
+      border-right: 3px solid #0ff;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 50px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      padding: 30px 0;
+    }
+
+    .sidebar-logo {
+      padding: 0 30px 30px;
+      border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+      margin-bottom: 40px;
+    }
+
+    .sidebar-logo img {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
+    }
+
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      flex: 1;
+    }
+
+    .menu-item {
+      position: relative;
+      margin: 15px 20px;
+    }
+
+    .menu-item a {
+      display: flex;
+      align-items: center;
+      padding: 18px 25px;
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Impact', Arial Black, sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, rgba(0, 255, 255, 0.1) 0%, transparent 100%);
+      border-left: 4px solid transparent;
+      border-radius: 0 8px 8px 0;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-item a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(0, 255, 255, 0.3) 0%, transparent 100%);
+      transition: width 0.4s ease;
+      z-index: -1;
+    }
+
+    .menu-item a:hover::before {
+      width: 100%;
+    }
+
+    .menu-item a:hover {
+      color: #0ff;
+      border-left-color: #0ff;
+      transform: translateX(10px);
+      text-shadow: 0 0 10px #0ff;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    }
+
+    .menu-item a::after {
+      content: '▶';
+      position: absolute;
+      right: 20px;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+      color: #0ff;
+      font-size: 0.8rem;
+    }
+
+    .menu-item a:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .sidebar-decoration {
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #0ff, transparent);
+      opacity: 0.3;
+    }
+
+    .sidebar-decoration.top {
+      top: 150px;
+    }
+
+    .sidebar-decoration.bottom {
+      bottom: 180px;
+    }
+
+    .speed-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0.1;
+    }
+
+    .speed-line {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #0ff);
+      animation: speed 2s linear infinite;
+    }
+
+    @keyframes speed {
+      0% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(300%);
+        opacity: 0;
+      }
+    }
+
+    .sidebar-button-container {
+      padding: 20px 30px 30px;
+      border-top: 2px solid rgba(0, 255, 255, 0.3);
+    }
+
+    #raceBtn {
+      font-family: Impact, Arial Black, sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 4px;
+      color: #111;
+      background: #f8f8f8;
+      border: 3px solid #333;
+      border-radius: 8px;
+      padding: 12px 20px;
+      position: relative;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6) inset, 0 5px 15px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 2px #fff;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+      width: 100%;
+      display: block;
+    }
+
+    #raceBtn::before,
+    #raceBtn::after {
+      content: "";
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle, #999 30%, #444 100%);
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    #raceBtn::before {
+      top: 8px;
+      left: 8px;
+    }
+
+    #raceBtn::after {
+      top: 8px;
+      right: 8px;
+    }
+
+    #raceBtn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #0ff, 0 0 40px #0ff inset;
+      border-color: #0ff;
+    }
+
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 150;
+    }
+
+    #fadeOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.5s ease-in-out;
+      z-index: 9999;
+    }
+
+    /* 🌐 RESPONSIVE */
+    @media (max-width: 1366px) {
+      .sidebar {
+        width: 220px;
+        padding: 20px 0;
+      }
+
+      .sidebar-logo {
+        padding: 0 20px 20px;
+        margin-bottom: 20px;
+      }
+
+      .menu-item a {
+        font-size: 1rem;
+        padding: 15px 20px;
+        letter-spacing: 1.5px;
+      }
+
+      #raceBtn {
+        font-size: 1rem;
+        padding: 10px 15px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      body, html {
+        overflow: auto;
+      }
+
+      .sidebar {
+        width: 200px;
+      }
+
+      .menu-item a {
+        font-size: 0.9rem;
+        padding: 12px 15px;
+      }
+
+      #raceBtn {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        padding: 10px;
+        border-right: none;
+        border-bottom: 3px solid #0ff;
+      }
+
+      .sidebar-logo {
+        flex: 1;
+        margin: 0;
+        padding: 0 10px;
+        border: none;
+      }
+
+      .menu-list {
+        display: flex;
+        justify-content: space-around;
+        flex: 2;
+      }
+
+      .menu-item {
+        margin: 5px;
+      }
+
+      .menu-item a {
+        padding: 10px;
+        font-size: 0.85rem;
+      }
+
+      .sidebar-button-container {
+        flex: 1;
+        padding: 10px;
+      }
+
+      #raceBtn {
+        width: auto;
+        font-size: 0.8rem;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <svg class="svg-mask" width="100%" height="100%" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <mask id="text-mask">
+        <rect width="100%" height="100%" fill="black"/>
+        <text id="pulseText" text-anchor="middle" dominant-baseline="middle" 
+              fill="white" stroke="white" stroke-width="35"
+              font-family="Impact, Arial Black, sans-serif" 
+              font-weight="bold" letter-spacing="20">
+          PULSE
+        </text>
+        <text id="shiftText" text-anchor="middle" dominant-baseline="middle" 
+              fill="white" stroke="white" stroke-width="35"
+              font-family="Impact, Arial Black, sans-serif" 
+              font-weight="bold" letter-spacing="20">
+          SHIFT
+        </text>
+      </mask>
+    </defs>
+  </svg>
+
+  <video class="video-bg" autoplay loop muted playsinline>
+    <source src="video1.mp4" type="video/mp4">
+  </video>
+
+  <div class="sidebar">
+    <div class="speed-lines">
+      <div class="speed-line" style="top: 20%; animation-delay: 0s;"></div>
+      <div class="speed-line" style="top: 35%; animation-delay: 0.7s;"></div>
+      <div class="speed-line" style="top: 50%; animation-delay: 1.4s;"></div>
+      <div class="speed-line" style="top: 65%; animation-delay: 0.3s;"></div>
+      <div class="speed-line" style="top: 80%; animation-delay: 1s;"></div>
+    </div>
+    
+    <div class="sidebar-decoration top"></div>
+    
+    <div class="sidebar-logo">
+      <img src="logo.png" alt="Logo">
+    </div>
+    
+    <ul class="menu-list">
+      <li class="menu-item"><a href="#">PROFILE</a></li>
+      <li class="menu-item"><a href="#">SETTINGS</a></li>
+      <li class="menu-item"><a href="#">RACE COMMUNITY</a></li>
+      <li class="menu-item"><a href="#">ONLINE</a></li>
+    </ul>
+    
+    <div class="sidebar-decoration bottom"></div>
+
+    <div class="sidebar-button-container">
+      <button id="raceBtn" type="button">LET'S RACE</button>
+      <audio id="raceSound" src="letsrace.mp3"></audio>
+    </div>
+  </div>
+
+  <canvas id="particles"></canvas>
+  <div id="fadeOverlay"></div>
+
+  <!-- 🎵 Música de fondo -->
+  <audio id="bgMusic" src="backgroundmusic.mp3" loop></audio>
+
+  <script>
+    // Función para ajustar el texto dinámicamente
+    function adjustTextPosition() {
+      const sidebar = document.querySelector('.sidebar');
+      const sidebarWidth = sidebar.offsetWidth;
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      
+      // Calcular el espacio disponible
+      const availableWidth = windowWidth - sidebarWidth;
+      const centerX = sidebarWidth + (availableWidth / 2);
+      
+      // Calcular tamaño de fuente basado en el ancho disponible
+      let pulseFontSize, shiftFontSize;
+      
+      if (windowWidth <= 768) {
+        pulseFontSize = Math.min(availableWidth * 0.25, 150);
+        shiftFontSize = Math.min(availableWidth * 0.3, 180);
+      } else if (windowWidth <= 1024) {
+        pulseFontSize = Math.min(availableWidth * 0.3, 220);
+        shiftFontSize = Math.min(availableWidth * 0.35, 270);
+      } else if (windowWidth <= 1366) {
+        pulseFontSize = Math.min(availableWidth * 0.35, 300);
+        shiftFontSize = Math.min(availableWidth * 0.4, 360);
+      } else {
+        pulseFontSize = Math.min(availableWidth * 0.4, 425);
+        shiftFontSize = Math.min(availableWidth * 0.45, 490);
+      }
+      
+      const pulseText = document.getElementById('pulseText');
+      const shiftText = document.getElementById('shiftText');
+      
+      // Ajustar posición y tamaño
+      pulseText.setAttribute('x', centerX);
+      pulseText.setAttribute('y', windowHeight * 0.3);
+      pulseText.setAttribute('font-size', pulseFontSize);
+      
+      shiftText.setAttribute('x', centerX);
+      shiftText.setAttribute('y', windowHeight * 0.7);
+      shiftText.setAttribute('font-size', shiftFontSize);
+      
+      // Ajustar stroke-width proporcionalmente
+      const strokeWidth = pulseFontSize / 12;
+      pulseText.setAttribute('stroke-width', strokeWidth);
+      shiftText.setAttribute('stroke-width', strokeWidth);
+    }
+    
+    // Ajustar al cargar y al redimensionar
+    adjustTextPosition();
+    window.addEventListener('resize', adjustTextPosition);
+
+    // Canvas de partículas
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    const btn = document.getElementById("raceBtn");
+    let particles = [];
+    let active = false;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = random(3, 7);
+        this.speedX = random(4, 8);
+        this.speedY = random(-2, 2);
+        this.color = `hsl(200, 100%, ${random(50, 70)}%)`;
+        this.life = 1;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.size *= 0.96;
+        this.life -= 0.02;
+      }
+
+      draw() {
+        ctx.globalAlpha = this.life;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = this.color;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function handleParticles() {
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].life <= 0 || particles[i].size < 0.5) {
+          particles.splice(i, 1);
+          i--;
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (active) {
+        const rect = btn.getBoundingClientRect();
+        const startX = rect.right;
+        const centerY = rect.top + rect.height / 2;
+        
+        // Crear partículas que salen hacia la derecha
+        for (let i = 0; i < 8; i++) {
+          const offsetY = random(-30, 30);
+          particles.push(new Particle(startX, centerY + offsetY));
+        }
+      }
+      handleParticles();
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    btn.addEventListener("click", () => {
+      const sound = document.getElementById("raceSound");
+      sound.volume = 1.0; // Volumen (0.0 a 1.0)
+      sound.currentTime = 0;
+      sound.play();
+
+      active = true;
+      setTimeout(() => {
+        active = false;
+        const overlay = document.getElementById("fadeOverlay");
+        overlay.style.opacity = 1;
+
+        setTimeout(() => {
+          window.location.href = "carinfo.html";
+        }, 1500);
+      },3000);
+    });
+
+    //  Música de fondo con continuidad entre páginas
+    document.addEventListener("DOMContentLoaded", () => {
+      const bgMusic = document.getElementById("bgMusic");
+      bgMusic.volume = 0.4;
+      
+      // Recuperar el tiempo guardado de la música
+      const savedTime = sessionStorage.getItem('musicTime');
+      if (savedTime) {
+        bgMusic.currentTime = parseFloat(savedTime);
+      }
+      
+      bgMusic.play().catch(() => {
+        console.log("El navegador bloqueó el autoplay. Se activará al primer clic.");
+        document.addEventListener("click", () => {
+          bgMusic.play();
+        }, { once: true });
+      });
+      
+      // Guardar el tiempo de reproducción cada segundo
+      setInterval(() => {
+        sessionStorage.setItem('musicTime', bgMusic.currentTime);
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SELECT YOUR CAR!!</title>
+  <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css">
+  <link rel="stylesheet" href="carinfo.css">
+<style>
+#animated-title {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  font-family: 'Impact', Arial Black, sans-serif;
+  font-size: 2.5rem;
+  letter-spacing: 6px;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  animation: colorShift 25s infinite;
+  pointer-events: none;
+}
+
+@keyframes colorShift {
+  0%, 100% { color: #ff0000; }
+  16% { color: #5995ce; }
+  33% { color: #6200ff; }
+  50% { color: #ff1629; }
+  66% { color: #33ff00; }
+  83% { color: #0084ff; }
+}
+</style>
+
+
+</head>
+<body>
+  <div id="root"></div>
+
+  <div id="animated-title" style="
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  font-family: 'Impact', Arial Black, sans-serif;
+  font-size: 3rem;
+  letter-spacing: 8px;
+  text-shadow: 0 0 20px currentColor;
+  transition: color 0.8s ease;
+  pointer-events: none;
+">PULSE SHIFT</div>
+
+  <!--  Música de fondo -->
+  <audio id="bgMusic" src="backgroundmusic.mp3" loop></audio>
+  
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-transition-group/2.2.0/react-transition-group.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.1/prop-types.js"></script>
+  <script src="https://unpkg.com/lodash@4.17.5/lodash.js"></script>
+  <script src="https://unpkg.com/bezier-easing@2.1.0/dist/bezier-easing.min.js"></script>
+  <script src="carinfo.js"></script>
+  
+  <!-- Script para continuar la música -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const bgMusic = document.getElementById("bgMusic");
+      bgMusic.volume = 0.4;
+      
+      // Recuperar el tiempo guardado
+      const savedTime = sessionStorage.getItem('musicTime');
+      if (savedTime) {
+        bgMusic.currentTime = parseFloat(savedTime);
+      }
+      
+      bgMusic.play();
+      
+      // Guardar el tiempo cada segundo
+      setInterval(() => {
+        sessionStorage.setItem('musicTime', bgMusic.currentTime);
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
