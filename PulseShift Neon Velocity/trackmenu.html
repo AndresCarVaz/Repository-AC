@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Car Slider con Flechas</title>
+  <title>3D Car Slider - Track Menu</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100vh;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
       background: linear-gradient(135deg, #0f0c29, #0c1411, #000000, #171718, #303434);
       background-size: 400% 400%;
       animation: neonShift 15s ease infinite;
@@ -30,72 +34,80 @@
     }
 
     .banner {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
       position: relative;
       perspective: 1500px;
-      overflow: hidden;
-      align-items: flex-start;
-      padding-top: 200px;
+      width: 100%;
+      max-width: 1200px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .slider {
       position: relative;
-      width: 300px;
-      height: 200px;
+      width: 350px;
+      height: 220px;
       transform-style: preserve-3d;
       transition: transform 1s ease;
     }
+
     .item {
       position: absolute;
       inset: 0;
       transform: rotateY(calc(360deg / var(--quantity) * (var(--position) - 1))) translateZ(500px);
       transition: transform 0.3s ease;
     }
-    .item img { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: contain; 
-      filter: drop-shadow(0 0 10px rgb(0, 38, 255)) drop-shadow(0 0 20px rgb(8, 130, 144)); 
+    .item img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px rgb(0, 38, 255)) drop-shadow(0 0 20px rgb(8, 130, 144));
+    }
+    .item:hover {
+      transform: rotateY(calc(360deg / var(--quantity) * (var(--position) - 1))) translateZ(550px) scale(1.2);
+      z-index: 10;
+      cursor: pointer;
     }
 
-/* Hover sobre cada tarjeta */
-.item:hover {
-  transform: rotateY(calc(360deg / var(--quantity) * (var(--position) - 1))) 
-             translateZ(550px) scale(1.2);
-  z-index: 10;
-  cursor: pointer;
-}
-
-
-
     .content {
-      position: absolute;
-      bottom: 120px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-top: 40px;
       text-align: center;
       color: #fff;
       text-shadow: 0 0 5px rgb(0, 174, 255), 0 0 15px rgb(0, 17, 255);
     }
     .content h1 {
       font-size: 3rem;
-      position: relative;
-      color: #fff;
+      margin-bottom: 10px;
       text-shadow: 0 0 10px #0ff, 0 0 20px rgb(0, 76, 255);
     }
+    .content p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+    .content button {
+      padding: 12px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: cyan;
+      color: #111;
+      cursor: pointer;
+      text-shadow: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px cyan;
+      margin: 5px;
+    }
+    .content button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px cyan;
+    }
 
-    /* Flechas debajo */
     .controls {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
       display: flex;
       gap: 40px;
-      z-index: 1000;
+      margin-top: 30px;
     }
     .arrow {
       width: 70px;
@@ -113,55 +125,53 @@
       transition: all 0.3s ease;
       box-shadow: 0 0 10px rgb(0, 0, 255), 0 0 20px rgb(0, 157, 255) inset;
     }
-    .arrow:hover {
-      background: cyan;
-      color: #111;
-      transform: scale(1.2);
-      box-shadow: 0 0 20px rgb(0, 51, 255), 0 0 40px rgb(0, 89, 255);
+    .arrow:hover { 
+      background: cyan; 
+      color: #111; 
+      transform: scale(1.2); 
+      box-shadow: 0 0 20px rgb(0, 51, 255), 0 0 40px rgb(0, 89, 255); 
     }
-    .arrow:active {
-      transform: scale(0.9);
-      box-shadow: 0 0 5px rgb(0, 0, 255), 0 0 15px rgb(0, 149, 255);
+    .arrow:active { 
+      transform: scale(0.9); 
+      box-shadow: 0 0 5px rgb(0, 0, 255), 0 0 15px rgb(0, 149, 255); 
     }
-
   </style>
 </head>
 <body>
   <div class="banner">
     <div class="slider" style="--quantity: 10">
-      <div class="item" style="--position: 1"><img src="./images/newyork.png" alt=""></div>
-      <div class="item" style="--position: 2"><img src="./images/tokyo.png" alt=""></div>
-      <div class="item" style="--position: 3"><img src="./images/rockhill.png" alt=""></div>
-      <div class="item" style="--position: 4"><img src="./images/storm.png" alt=""></div>
-      <div class="item" style="--position: 5"><img src="./images/cooper.png" alt=""></div>
-      <div class="item" style="--position: 6"><img src="./images/mustang.png" alt=""></div>
-      <div class="item" style="--position: 7"><img src="./images/porshe.png" alt=""></div>
-      <div class="item" style="--position: 8"><img src="./images/beetle.png" alt=""></div>
-      <div class="item" style="--position: 9"><img src="./images/mclaren.png" alt=""></div>
-      <div class="item" style="--position: 10"><img src="./images/bmw.png" alt=""></div>
+      <div class="item" style="--position: 1"><img src="./images/china.png" alt=""></div>
+      <div class="item" style="--position: 2"><img src="./images/rusia.png" alt=""></div>
+      <div class="item" style="--position: 3"><img src="./images/spain.png" alt=""></div>
+      <div class="item" style="--position: 4"><img src="./images/newyork.png" alt=""></div>
+      <div class="item" style="--position: 5"><img src="./images/colombia.png" alt=""></div>
+      <div class="item" style="--position: 6"><img src="./images/italy.png" alt=""></div>
+      <div class="item" style="--position: 7"><img src="./images/france.png" alt=""></div>
+      <div class="item" style="--position: 8"><img src="./images/germany.png" alt=""></div>
+      <div class="item" style="--position: 9"><img src="./images/tokyo.png" alt=""></div>
+      <div class="item" style="--position: 10"><img src="./images/mexico.png" alt=""></div>
     </div>
 
-    <!-- Flechas -->
     <div class="controls">
       <div class="arrow left">❮</div>
       <div class="arrow right">❯</div>
     </div>
 
     <div class="content">
-      <h1 data-content="CHOOSE YOUR CAR!!!!">CHOOSE YOUR CAR!!!!</h1>
-      <div class="author">
-        <h2>CHOOSE YOUR CAR!!!!</h2>
-        <p><b>And lets race</b></p>
-        <button>🏠main menu</button>
-      </div>
+      <h1>CHOOSE YOUR TRACK!</h1>
+      <p>And let´s race!</p>
+      <button onclick="goToMainMenu()">🏠 Main Menu</button>
+      <button onclick="goToCarInfo()">ℹ️ Car Info</button>
     </div>
   </div>
 
+  <audio id="bgMusic" src="backgroundmusic.mp3" loop></audio>
+
   <script>
+    // Slider
     const slider = document.querySelector('.slider');
     const leftArrow = document.querySelector('.arrow.left');
     const rightArrow = document.querySelector('.arrow.right');
-
     let currentIndex = 0;
     const totalItems = 10;
     const step = 360 / totalItems;
@@ -182,6 +192,25 @@
     });
 
     updateSlider();
+
+    // Música
+    document.addEventListener("DOMContentLoaded", () => {
+      const bgMusic = document.getElementById("bgMusic");
+      bgMusic.volume = 0.4;
+
+      const savedTime = sessionStorage.getItem('musicTime');
+      if (savedTime) bgMusic.currentTime = parseFloat(savedTime);
+
+      bgMusic.play();
+
+      setInterval(() => {
+        sessionStorage.setItem('musicTime', bgMusic.currentTime);
+      }, 1000);
+    });
+
+    // Botones
+    function goToMainMenu() { window.location.href = "mainmenu.html"; }
+    function goToCarInfo() { window.location.href = "carinfo.html"; }
   </script>
 </body>
 </html>

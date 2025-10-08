@@ -303,13 +303,13 @@ a {
 }
 @media only screen and (min-width:992px) {
   .tesla-slide__img {
-    top: -35%;
+    top: -56%;
     right: -25%;
   }
 }
 @media only screen and (min-width:1800px) {
   .tesla-slide__img {
-    top: -50%;
+    top: -56%;
     right: -19%;
   }
 }
@@ -436,8 +436,11 @@ a {
   .tesla-slide__bckg {
     width: 300px;
     height: calc(var(--bckg-height) / 1.8);
-    bottom: 40%;
+    bottom: 0%;
+  
     right: 0;
+
+    
   }
 }
 @media only screen and (min-width:992px) {
