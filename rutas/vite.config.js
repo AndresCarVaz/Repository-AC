@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 export default defineConfig({
-  // <-- Importante: base debe coincidir con la subruta que usarás en Netlify
+  // Base vacía si lo quieres en la raíz, o '/ahorcado/' si quieres subruta
   base: '/ahorcado/',
 
   plugins: [
@@ -17,6 +17,7 @@ export default defineConfig({
   ],
 
   build: {
-    outDir: 'dist' // <-- Vite generará los archivos aquí
+    outDir: 'dist',  // Carpeta que Netlify servirá
+    emptyOutDir: true
   }
 })
