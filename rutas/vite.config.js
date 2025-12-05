@@ -4,7 +4,8 @@ import vue from '@vitejs/plugin-vue'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 export default defineConfig({
-  base: '', // ← Para Netlify base vacía es lo correcto
+  // <-- Importante: base debe coincidir con la subruta que usarás en Netlify
+  base: '/ahorcado/',
 
   plugins: [
     vue({ template: { transformAssetUrls } }),
@@ -16,6 +17,6 @@ export default defineConfig({
   ],
 
   build: {
-    outDir: 'dist' 
+    outDir: 'dist' // <-- Vite generará los archivos aquí
   }
 })
