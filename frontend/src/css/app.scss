@@ -1,0 +1,105 @@
+// Global styles for Numerología IA
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap');
+
+:root {
+  --color-primary: #6C4AB6;
+  --color-secondary: #9B59B6;
+  --color-accent: #FFD700;
+  --color-dark: #1A1A2E;
+  --color-dark-page: #0F0F1A;
+  --gradient-mystic: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
+  --gradient-gold: linear-gradient(135deg, #FFD700, #FFA500);
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background: var(--gradient-mystic);
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.text-gradient-gold {
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mystic-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(108, 74, 182, 0.3);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: rgba(108, 74, 182, 0.7);
+    box-shadow: 0 8px 32px rgba(108, 74, 182, 0.3);
+    transform: translateY(-2px);
+  }
+}
+
+.mystic-btn {
+  background: linear-gradient(135deg, #6C4AB6, #9B59B6) !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(108, 74, 182, 0.4) !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    box-shadow: 0 8px 25px rgba(108, 74, 182, 0.6) !important;
+    transform: translateY(-2px) !important;
+  }
+}
+
+.gold-btn {
+  background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+  color: #1A1A2E !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4) !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6) !important;
+    transform: translateY(-2px) !important;
+  }
+}
+
+.star-separator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.5), transparent);
+  }
+}
+
+// Animations
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(108, 74, 182, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(108, 74, 182, 0.7); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
