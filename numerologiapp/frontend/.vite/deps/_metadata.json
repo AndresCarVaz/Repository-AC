@@ -1,0 +1,49 @@
+{
+  "hash": "bccee487",
+  "configHash": "6b43174f",
+  "lockfileHash": "aeff1bda",
+  "browserHash": "e78457e8",
+  "optimized": {
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "c2215928",
+      "needsInterop": false
+    },
+    "pinia": {
+      "src": "../../node_modules/pinia/dist/pinia.mjs",
+      "file": "pinia.js",
+      "fileHash": "6b1a7b6b",
+      "needsInterop": false
+    },
+    "quasar": {
+      "src": "../../node_modules/quasar/dist/quasar.client.js",
+      "file": "quasar.js",
+      "fileHash": "0adfdbf2",
+      "needsInterop": false
+    },
+    "vue": {
+      "src": "../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "f02e4a25",
+      "needsInterop": false
+    },
+    "vue-router": {
+      "src": "../../node_modules/vue-router/dist/vue-router.mjs",
+      "file": "vue-router.js",
+      "fileHash": "2d8810d4",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-AYVSL3LM": {
+      "file": "chunk-AYVSL3LM.js"
+    },
+    "chunk-6FAFFNDF": {
+      "file": "chunk-6FAFFNDF.js"
+    },
+    "chunk-PZ5AY32C": {
+      "file": "chunk-PZ5AY32C.js"
+    }
+  }
+}

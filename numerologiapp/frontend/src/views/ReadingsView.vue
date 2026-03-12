@@ -2,7 +2,6 @@
   <q-page class="readings-page q-pa-md">
     <div class="page-header text-center q-mb-xl">
         <h2 class="text-white">📜 Mis Lecturas</h2>
-        
         <div v-if="readingsStore.readings.length > 0" class="row justify-center q-gutter-sm q-mt-md">
           <q-btn 
             @click="handleMainReading" 
