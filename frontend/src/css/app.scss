@@ -1,68 +1,71 @@
-// Global styles for Numerología IA
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap');
+// Global minimal grayscale styles
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&display=swap');
 
 :root {
-  --color-primary: #6C4AB6;
-  --color-secondary: #9B59B6;
-  --color-accent: #FFD700;
-  --color-dark: #1A1A2E;
-  --color-dark-page: #0F0F1A;
-  --gradient-mystic: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
-  --gradient-gold: linear-gradient(135deg, #FFD700, #FFA500);
+  --color-bg: #050507;
+  --color-surface: rgba(255, 255, 255, 0.06);
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-text: rgba(255, 255, 255, 0.92);
+  --color-muted: rgba(255, 255, 255, 0.6);
+  --color-muted-2: rgba(255, 255, 255, 0.4);
+  --color-hover: rgba(255, 255, 255, 0.08);
+  --color-focus: rgba(255, 255, 255, 0.16);
 }
 
 body {
   font-family: 'Raleway', sans-serif;
-  background: var(--gradient-mystic);
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .font-cinzel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
 }
 
 .text-gradient-gold {
-  background: var(--gradient-gold);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
 }
 
 .mystic-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(108, 74, 182, 0.3);
-  border-radius: 16px;
-  transition: all 0.3s ease;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  box-shadow: none;
 
   &:hover {
-    border-color: rgba(108, 74, 182, 0.7);
-    box-shadow: 0 8px 32px rgba(108, 74, 182, 0.3);
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
   }
 }
 
-.mystic-btn {
-  background: linear-gradient(135deg, #6C4AB6, #9B59B6) !important;
-  border: none !important;
-  box-shadow: 0 4px 15px rgba(108, 74, 182, 0.4) !important;
-  transition: all 0.3s ease !important;
+.mystic-btn,
+.gold-btn,
+.btn-primary {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: var(--color-text) !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease !important;
 
   &:hover {
-    box-shadow: 0 8px 25px rgba(108, 74, 182, 0.6) !important;
-    transform: translateY(-2px) !important;
+    background: rgba(255, 255, 255, 0.16) !important;
+    border-color: rgba(255, 255, 255, 0.24) !important;
+    transform: translateY(-1px) !important;
   }
-}
 
-.gold-btn {
-  background: linear-gradient(135deg, #FFD700, #FFA500) !important;
-  color: #1A1A2E !important;
-  font-weight: 600 !important;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4) !important;
-  transition: all 0.3s ease !important;
+  &:active {
+    transform: translateY(0) !important;
+  }
 
-  &:hover {
-    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6) !important;
-    transform: translateY(-2px) !important;
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18) !important;
   }
 }
 
@@ -70,36 +73,38 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 20px 0;
+  margin: 18px 0;
 
-  &::before, &::after {
+  &::before,
+  &::after {
     content: '';
     flex: 1;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.5), transparent);
+    background: rgba(255, 255, 255, 0.15);
   }
 }
 
-// Animations
+.q-input__control,
+.q-select__control,
+.q-btn {
+  font-family: 'Raleway', sans-serif;
+}
+
+.q-input__control::after,
+.q-select__control::after {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.q-input__control.q-focused::after,
+.q-select__control.q-focused::after {
+  border-color: rgba(255, 255, 255, 0.45) !important;
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 5px rgba(108, 74, 182, 0.3); }
-  50% { box-shadow: 0 0 20px rgba(108, 74, 182, 0.7); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
+  50% { transform: translateY(-8px); }
 }
 
 .float-animation {
-  animation: float 3s ease-in-out infinite;
-}
-
-.pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }

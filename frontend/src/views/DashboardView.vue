@@ -18,7 +18,7 @@
         <q-card-section class="row items-center q-gutter-md">
           <q-icon
             :name="authStore.isMemberActive ? 'stars' : 'star_border'"
-            :color="authStore.isMemberActive ? 'amber' : 'grey-6'"
+            :color="authStore.isMemberActive ? 'grey-2' : 'grey-5'"
             size="48px"
           />
           <div class="col">
@@ -111,7 +111,7 @@
           <q-card-section class="q-pa-xl">
             <div class="row justify-between items-center q-mb-md">
               <q-badge
-                :color="readingsStore.currentReading.tipo === 'principal' ? 'deep-purple' : 'amber-8'"
+                color="grey-5"
                 class="text-capitalize"
                 style="font-size: 0.8rem; padding: 5px 12px; border-radius: 20px;"
               >

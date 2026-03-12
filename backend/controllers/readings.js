@@ -33,6 +33,7 @@ const handleAIError = (error, res) => {
 // POST /api/readings/main
 const generateMainReading = async (req, res) => {
     const { user } = req;
+    const force = req.query?.force === 'true';
 
     if (user.estado !== 'activo') {
         return res.status(403).json({
@@ -42,6 +43,14 @@ const generateMainReading = async (req, res) => {
     }
 
     try {
+        if (!force) {
+            // Evitar llamadas innecesarias a la IA si ya existe la lectura principal
+            const existing = await Reading.findOne({ usuario_id: user._id, tipo: 'principal' });
+            if (existing) {
+                return res.json({ ok: true, reading: existing });
+            }
+        }
+
         const prompt = buildMainReadingPrompt(user.nombre, user.fecha_nacimiento);
         const contenido = await generateReading(prompt);
 
@@ -71,6 +80,22 @@ const generateDailyReading = async (req, res) => {
     }
 
     try {
+        // Evitar generar múltiples lecturas en el mismo día (uso de la IA limitado)
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(startOfDay);
+        endOfDay.setDate(endOfDay.getDate() + 1);
+
+        const existing = await Reading.findOne({
+            usuario_id: user._id,
+            tipo: 'diaria',
+            fecha_generacion: { $gte: startOfDay, $lt: endOfDay }
+        });
+
+        if (existing) {
+            return res.json({ ok: true, reading: existing });
+        }
+
         const prompt = buildDailyReadingPrompt(user.nombre);
         const contenido = await generateReading(prompt);
 

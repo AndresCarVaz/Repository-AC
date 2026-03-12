@@ -1,7 +1,7 @@
 <template>
   <q-page class="payments-page q-pa-md">
     <div class="page-header text-center q-mb-xl">
-      <h2 class="font-cinzel text-gradient-gold">💳 Pagos y Membresía</h2>
+      <h2 class="text-white">💳 Pagos y Membresía</h2>
       <p class="text-grey-4">Gestiona tu suscripción numerológica</p>
     </div>
 
@@ -19,7 +19,7 @@
         />
         <div class="col">
           <div class="font-cinzel text-white text-subtitle1">
-            Estado: <span :class="authStore.isMemberActive ? 'text-positive' : 'text-warning'">
+            Estado: <span :class="authStore.isMemberActive ? 'text-white' : 'text-grey-5'">
               {{ authStore.isMemberActive ? 'ACTIVO' : 'INACTIVO' }}
             </span>
           </div>
@@ -44,20 +44,30 @@
                 type="number"
                 label="Monto"
                 prefix="$"
-                dark outlined color="purple-4" label-color="grey-4"
+                dark
+                outlined
+                color="grey-4"
+                label-color="grey-4"
                 :rules="[val => val > 0 || 'El monto debe ser mayor a 0']"
               >
-                <template #prepend><q-icon name="attach_money" color="purple-4" /></template>
+                <template #prepend>
+                  <q-icon name="attach_money" color="grey-4" />
+                </template>
               </q-input>
 
               <q-select
                 v-model="paymentForm.metodo"
                 :options="paymentMethods"
                 label="Método de pago"
-                dark outlined color="purple-4" label-color="grey-4"
+                dark
+                outlined
+                color="grey-4"
+                label-color="grey-4"
                 :rules="[val => !!val || 'Selecciona un método de pago']"
               >
-                <template #prepend><q-icon name="payment" color="purple-4" /></template>
+                <template #prepend>
+                  <q-icon name="payment" color="grey-4" />
+                </template>
               </q-select>
 
               <div class="q-pt-sm">
@@ -73,10 +83,10 @@
               </div>
             </q-form>
 
-            <q-card class="q-mt-md" flat style="background: rgba(108, 74, 182, 0.1); border-radius: 10px; padding: 12px;">
+            <q-card class="q-mt-md" flat style="background: rgba(255, 255, 255, 0.06); border-radius: 10px; padding: 12px;">
               <div class="text-grey-4 text-caption text-center">
                 <q-icon name="info" size="xs" class="q-mr-xs" />
-                La membresía se activa por <strong class="text-purple-3">30 días</strong> a partir del pago
+                La membresía se activa por <strong class="text-grey-3">30 días</strong> a partir del pago
               </div>
             </q-card>
           </q-card-section>
@@ -88,7 +98,7 @@
         <h3 class="font-cinzel text-white q-mb-md">Historial de Pagos</h3>
 
         <div v-if="loadingHistory" class="text-center q-py-xl">
-          <q-spinner-dots color="purple" size="40px" />
+          <q-spinner-dots color="grey-4" size="40px" />
         </div>
 
         <div v-else-if="!payments.length" class="text-center q-py-xl">
@@ -104,14 +114,14 @@
             flat
           >
             <q-card-section class="row items-center q-pa-md">
-              <q-icon name="receipt" color="amber" size="30px" class="q-mr-md" />
+              <q-icon name="receipt" color="grey-4" size="30px" class="q-mr-md" />
               <div class="col">
                 <div class="text-white text-weight-medium">${{ payment.monto }}</div>
                 <div class="text-grey-5 text-caption">{{ payment.metodo }}</div>
               </div>
               <div class="text-right">
                 <div class="text-grey-4 text-caption">{{ formatDate(payment.fecha_pago) }}</div>
-                <div class="text-caption" :class="isExpired(payment.fecha_vencimiento) ? 'text-negative' : 'text-positive'">
+                <div class="text-caption" :class="isExpired(payment.fecha_vencimiento) ? 'text-grey-5' : 'text-grey-4'">
                   Vence: {{ formatDate(payment.fecha_vencimiento) }}
                 </div>
               </div>
@@ -136,8 +146,8 @@ const payments = ref([]);
 const loadingHistory = ref(true);
 const loadingPayment = ref(false);
 
-const paymentForm = ref({ monto: 9.99, metodo: null });
-const paymentMethods = ['Tarjeta de crédito', 'Tarjeta de débito', 'PayPal', 'Transferencia bancaria', 'Efectivo'];
+const paymentForm = ref({ monto: 25.00, metodo: null });
+const paymentMethods = ['Tarjeta de crédito', 'Tarjeta de débito', 'PayPal', 'Transferencia bancaria', 'Mercadopago '];
 
 const formatDate = (dateStr) => {
   return new Date(dateStr).toLocaleDateString('es-ES', {
@@ -166,7 +176,7 @@ const handlePayment = async () => {
     $q.notify({ type: 'positive', message: '¡Pago registrado! Tu membresía está activa 🌟' });
     payments.value.unshift(data.payment);
     authStore.refreshUser({ ...authStore.user, estado: 'activo' });
-    paymentForm.value = { monto: 9.99, metodo: null };
+    paymentForm.value = { monto: 25.00, metodo: null };
   } catch (err) {
     $q.notify({ type: 'negative', message: err.response?.data?.msg || 'Error al registrar el pago' });
   } finally {

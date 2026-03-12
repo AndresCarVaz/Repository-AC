@@ -1,11 +1,15 @@
 <template>
   <q-layout view="hHh lpR fFf" class="main-layout">
+    <div v-if="authStore.isLoggedIn" class="matrix-bg">
+      <canvas ref="matrixCanvas"></canvas>
+    </div>
+
     <!-- Header -->
     <q-header elevated class="header-bar">
       <q-toolbar>
         <q-btn flat round dense icon="menu" @click="drawer = !drawer" class="text-white" />
 
-        <q-toolbar-title class="font-cinzel text-gradient-gold" style="font-size: 1.1rem; font-weight: 700;">
+        <q-toolbar-title class="font-cinzel text-white" style="font-size: 1.1rem; font-weight: 700;">
           ✨ Numerología IA
         </q-toolbar-title>
 
@@ -70,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useAuthStore } from '../store/auth';
@@ -79,6 +83,74 @@ const authStore = useAuthStore();
 const router = useRouter();
 const $q = useQuasar();
 const drawer = ref(false);
+const matrixCanvas = ref(null);
+let matrixAnimationId = null;
+let cleanupMatrix = null;
+
+const setupMatrix = () => {
+  const canvas = matrixCanvas.value;
+  if (!canvas) return null;
+
+  const ctx = canvas.getContext('2d');
+  const resize = () => {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+  };
+
+  const letters = '0123456789';
+  const fontSize = 10;
+  let columns = [];
+
+  const initColumns = () => {
+    columns = Array(Math.floor(canvas.width / fontSize)).fill(0);
+  };
+
+  const draw = () => {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+    ctx.font = `${fontSize}px monospace`;
+
+    columns.forEach((y, index) => {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      const x = index * fontSize;
+      ctx.fillText(text, x, y);
+
+      if (y > canvas.height + Math.random() * 1000) {
+        columns[index] = 0;
+      } else {
+        columns[index] = y + fontSize * 0.125;
+      }
+    });
+
+    matrixAnimationId = requestAnimationFrame(draw);
+  };
+
+  const handleResize = () => {
+    resize();
+    initColumns();
+  };
+
+  window.addEventListener('resize', handleResize);
+  handleResize();
+  draw();
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+    if (matrixAnimationId) cancelAnimationFrame(matrixAnimationId);
+  };
+};
+
+onMounted(() => {
+  if (authStore.isLoggedIn) {
+    cleanupMatrix = setupMatrix();
+  }
+});
+
+onBeforeUnmount(() => {
+  if (cleanupMatrix) cleanupMatrix();
+});
 
 const navItems = [
   { to: '/', icon: 'dashboard', label: 'Inicio' },
@@ -102,49 +174,71 @@ const handleLogout = () => {
 
 <style lang="scss" scoped>
 .main-layout {
-  background: var(--gradient-mystic);
+  position: relative;
+  background: var(--color-bg);
   min-height: 100vh;
 }
 
+.matrix-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.matrix-bg canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.main-layout .q-header,
+.main-layout .q-drawer,
+.main-layout .q-page-container {
+  position: relative;
+  z-index: 1;
+}
+
 .header-bar {
-  background: rgba(26, 26, 46, 0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(108, 74, 182, 0.3);
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .drawer-bg {
-  background: rgba(15, 15, 26, 0.98) !important;
-  border-right: 1px solid rgba(108, 74, 182, 0.2);
+  background: rgba(0, 0, 0, 0.88) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .user-panel {
-  background: linear-gradient(135deg, rgba(108, 74, 182, 0.2), rgba(155, 89, 182, 0.1));
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 0 0 16px 16px;
-  padding-top: 30px;
-  padding-bottom: 20px;
+  padding-top: 28px;
+  padding-bottom: 18px;
 }
 
 .user-avatar {
-  background: linear-gradient(135deg, #6C4AB6, #9B59B6);
-  box-shadow: 0 4px 20px rgba(108, 74, 182, 0.5);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
 }
 
 .nav-item {
-  border-radius: 10px;
+  border-radius: 12px;
   margin: 0 8px;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease;
 
   &:hover {
-    background: rgba(108, 74, 182, 0.15);
+    background: rgba(255, 255, 255, 0.08);
   }
 }
 
 .nav-active {
-  background: rgba(108, 74, 182, 0.3) !important;
-  border-left: 3px solid #6C4AB6;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-left: 3px solid rgba(255, 255, 255, 0.6);
 
-  .q-icon, .q-item__section--main {
-    color: #9B59B6 !important;
+  .q-icon,
+  .q-item__section--main {
+    color: rgba(255, 255, 255, 0.9) !important;
   }
 }
 </style>

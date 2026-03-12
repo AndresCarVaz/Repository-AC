@@ -40,8 +40,17 @@ const generateReading = async (prompt, retries = 3) => {
             if (status === 429 && attempt < retries) {
                 // Leer el retryDelay que la API nos da (en segundos), o usar backoff exponencial
                 const retryInfo = error?.response?.data?.error?.details;
-                const retryDelaySec = retryInfo?.find(d => d.retryDelay)?.retryDelay?.replace('s', '') || (attempt * 20);
-                const waitMs = (parseInt(retryDelaySec) + 2) * 1000;
+                const retryAfterHeader = error?.response?.headers?.['retry-after'];
+
+                const retryDelaySec =
+                    // Google Gemini puede devolver un retryDelay en los detalles
+                    (retryInfo?.find(d => d.retryDelay)?.retryDelay?.replace('s', ''))
+                    // O la cabecera estándar Retry-After (segundos)
+                    || retryAfterHeader
+                    // Fallback con backoff simple
+                    || (attempt * 20);
+
+                const waitMs = (parseInt(retryDelaySec, 10) + 2) * 1000;
 
                 console.log(`[AI] Rate limit (429). Reintentando en ${waitMs / 1000}s... (intento ${attempt}/${retries})`);
                 await sleep(waitMs);
@@ -52,10 +61,13 @@ const generateReading = async (prompt, retries = 3) => {
             throw error;
         }
     }
+
+    // Si se alcanzó el máximo de reintentos sin obtener respuesta, lanzar un error explícito
+    throw new Error('No se pudo generar la lectura: se alcanzó el límite de reintentos.');
 };
 
 /**
- * Construye el prompt para una lectura numerológica principal.
+ *  prompt para una lectura numerológica principal.
  */
 const buildMainReadingPrompt = (nombre, fechaNacimiento) => {
     const fecha = new Date(fechaNacimiento).toLocaleDateString('es-ES', {
@@ -74,7 +86,7 @@ const buildMainReadingPrompt = (nombre, fechaNacimiento) => {
 };
 
 /**
- * Construye el prompt para una lectura numerológica diaria.
+ *                           prompt para una lectura numerológica diaria.
  */
 const buildDailyReadingPrompt = (nombre) => {
     const hoy = new Date().toLocaleDateString('es-ES', {

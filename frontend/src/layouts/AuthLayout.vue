@@ -27,7 +27,7 @@ const getStarStyle = (i) => {
 
 <style lang="scss" scoped>
 .auth-layout {
-  background: var(--gradient-mystic);
+  background: var(--color-bg);
   min-height: 100vh;
   position: relative;
   overflow: hidden;

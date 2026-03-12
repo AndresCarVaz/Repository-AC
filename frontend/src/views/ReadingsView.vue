@@ -1,13 +1,12 @@
 <template>
   <q-page class="readings-page q-pa-md">
     <div class="page-header text-center q-mb-xl">
-      <h2 class="font-cinzel text-gradient-gold">📜 Mis Lecturas</h2>
-      <p class="text-grey-4">Tu historial del universo numerológico</p>
+        <h2 class="text-white">📜 Mis Lecturas</h2>
     </div>
 
     <!-- Loading -->
     <div v-if="readingsStore.loading && !readingsStore.readings.length" class="text-center q-py-xl">
-      <q-spinner-dots color="purple" size="50px" />
+      <q-spinner-dots color="grey-4" size="50px" />
       <p class="text-grey-4 q-mt-md">Consultando el universo...</p>
     </div>
 
@@ -30,7 +29,7 @@
         <q-card-section>
           <div class="row items-center q-mb-md">
             <q-badge
-              :color="reading.tipo === 'principal' ? 'deep-purple' : 'amber-8'"
+              color="grey-5"
               class="text-capitalize q-mr-md"
               style="font-size: 0.8rem; padding: 5px 12px; border-radius: 20px;"
             >
@@ -45,8 +44,8 @@
           <q-expansion-item
             icon="auto_stories"
             label="Ver lectura completa"
-            header-class="text-purple-3"
-            expand-icon-class="text-purple-3"
+            header-class="text-grey-4"
+            expand-icon-class="text-grey-4"
           >
             <q-card-section class="reading-content text-grey-3" style="white-space: pre-wrap; line-height: 1.8;">
               {{ reading.contenido }}
@@ -86,10 +85,11 @@ const formatDate = (dateStr) => {
 }
 
 .reading-item {
-  transition: all 0.3s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
   &:hover {
-    transform: translateX(4px);
-    border-color: rgba(108, 74, 182, 0.6) !important;
+    transform: translateX(2px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12) !important;
   }
 }
 </style>

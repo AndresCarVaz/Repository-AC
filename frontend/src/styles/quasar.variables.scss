@@ -1,12 +1,12 @@
 /* src/styles/quasar.variables.scss */
-$primary   : #6C4AB6;
-$secondary : #9B59B6;
-$accent    : #FFD700;
+$primary   : #ffffff;
+$secondary : #e0e0e0;
+$accent    : #ffffff;
 
-$dark      : #1A1A2E;
-$dark-page : #0F0F1A;
+$dark      : #050507;
+$dark-page : #050507;
 
-$positive  : #21BA45;
-$negative  : #C10015;
-$info      : #31CCEC;
-$warning   : #F2C037;
+$positive  : rgba(255, 255, 255, 0.75);
+$negative  : rgba(255, 255, 255, 0.6);
+$info      : rgba(255, 255, 255, 0.6);
+$warning   : rgba(255, 255, 255, 0.65);
