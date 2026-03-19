@@ -22,6 +22,6 @@ export default defineConfig({
     open: true
   },
   define: {
-    'process.env.API_URL': JSON.stringify('http://localhost:3000/api')
+    'process.env.API_URL': JSON.stringify(process.env.API_URL || 'http://localhost:3000/api')
   }
 });
