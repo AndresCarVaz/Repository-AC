@@ -2,7 +2,7 @@
   <q-page class="auth-page flex flex-center">
     <q-card class="auth-card">
       <q-card-section class="text-center">
-        <img src="../assets/mainicon.png" alt="Logo Numerología" class="logo-icon" />
+        <img src="src/assets/mainicon.png" alt="Logo Numerología" class="logo-icon" />
         <div class="text-h5 q-mt-sm">Numerología IA</div>
         <div class="text-subtitle2 text-grey-6 q-mt-xs">Descubre los secretos del universo numérico</div>
       </q-card-section>
@@ -47,10 +47,8 @@
           <q-btn
             type="submit"
             label="Entrar"
-            color="primary"
             unelevated
-            rounded
-            class="mystic-btn full-width q-py-sm text-weight-bold"
+            class="full-width btn-primary"
             :loading="authStore.loading"
             text-color="white"
           />

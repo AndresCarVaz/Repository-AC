@@ -76,7 +76,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useAuthStore } from '../store/auth';
@@ -155,11 +155,17 @@ onBeforeUnmount(() => {
   if (cleanupMatrix) cleanupMatrix();
 });
 
-const navItems = [
-  { to: '/', icon: 'dashboard', label: 'Inicio' },
-  { to: '/lecturas', icon: 'auto_awesome', label: 'Mis Lecturas' },
-  { to: '/pagos', icon: 'payment', label: 'Pagos' }
-];
+const navItems = computed(() => {
+  const items = [
+    { to: '/', icon: 'dashboard', label: 'Inicio' },
+    { to: '/lecturas', icon: 'auto_awesome', label: 'Mis Lecturas' },
+    { to: '/pagos', icon: 'payment', label: 'Pagos' }
+  ];
+  if (authStore.isAdmin) {
+    items.push({ to: '/admin', icon: 'admin_panel_settings', label: 'Panel Admin' });
+  }
+  return items;
+});
 
 const handleLogout = () => {
   $q.dialog({

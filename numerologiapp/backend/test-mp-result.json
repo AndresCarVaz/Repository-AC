@@ -1,0 +1,4 @@
+{
+  "status": 500,
+  "body": "{\"ok\":false,\"msg\":\"Error al crear preferencia de pago\"}"
+}

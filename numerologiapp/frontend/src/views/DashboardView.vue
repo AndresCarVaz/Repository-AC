@@ -11,7 +11,7 @@
     <!-- Quick Actions -->
     <div class="q-mb-xl">
       <h3 class="font-cinzel text-white text-center q-mb-lg">
-        ✨ Lecturas Disponibles
+         Lecturas Disponibles
       </h3>
 
       <div class="glassmoon-grid">
@@ -22,21 +22,20 @@
           @mouseleave="() => resetTilt(1)"
           @click="handleMainReading"
         >
-          <img src="../assets/ballred.png" alt="Ball Roja" class="glassmoon-img" />
+          <img src="src/assets/ballred.png" alt="Ball Roja" class="glassmoon-img" />
           <div class="glassmoon-info">
             <div class="info-title">Lectura Principal</div>
             <div class="info-desc">Tu perfil numerológico completo basado en tu fecha de nacimiento</div>
             <q-btn
+              dense
               unelevated
-              rounded
-              color="primary"
-              class="mystic-btn full-width q-py-sm q-mt-sm"
+              class="info-btn"
               label="Generar Lectura"
               icon="auto_awesome"
               text-color="white"
               :loading="readingsStore.loading"
               :disable="!authStore.isMemberActive"
-              @click.stop="handleMainReading"
+              @click="handleMainReading"
             />
             <div v-if="!authStore.isMemberActive" class="text-grey-6 text-caption q-mt-sm">Requiere membresía activa</div>
           </div>
@@ -49,21 +48,20 @@
           @mouseleave="() => resetTilt(0)"
           @click="handleDailyReading"
         >
-          <img src="../assets/ball.png" alt="Ball Azul" class="glassmoon-img" />
+          <img src="src/assets/ball.png" alt="Ball Azul" class="glassmoon-img" />
           <div class="glassmoon-info">
             <div class="info-title">Lectura Diaria</div>
             <div class="info-desc">La energía y consejo numerológico especial para el día de hoy</div>
             <q-btn
+              dense
               unelevated
-              rounded
-              color="primary"
-              class="mystic-btn full-width q-py-sm q-mt-sm"
+              class="info-btn"
               label="Lectura de Hoy"
               icon="today"
               text-color="white"
               :loading="readingsStore.loading"
               :disable="!authStore.isMemberActive"
-              @click.stop="handleDailyReading"
+              @click="handleDailyReading"
             />
             <div v-if="!authStore.isMemberActive" class="text-grey-6 text-caption q-mt-sm">Requiere membresía activa</div>
           </div>
@@ -97,13 +95,9 @@
             v-if="!authStore.isMemberActive"
             to="/pagos"
             label="Activar"
-            color="accent"
-            text-color="dark"
-            unelevated
-            rounded
-            class="mystic-btn text-weight-bold"
-            size="md"
-            padding="8px 24px"
+            class="gold-btn"
+            size="sm"
+            padding="8px 20px"
           />
         </q-card-section>
       </q-card>
@@ -123,16 +117,16 @@
           <q-btn flat round dense icon="close" color="grey-4" v-close-popup />
         </q-card-section>
 
-        <q-separator color="grey-9" class="q-mt-md" />
+        <q-separator color="grey-8" class="q-mt-md" />
 
         <q-card-section class="q-pa-xl reading-body">
-          <div class="reading-text text-grey-3" style="white-space: pre-wrap; line-height: 1.9; font-size: 1.05rem;">
+          <div class="reading-text text-grey-2" style="white-space: pre-wrap; line-height: 1.9;">
             {{ currentReading?.contenido }}
           </div>
         </q-card-section>
 
-        <q-card-actions align="right" class="q-pa-md" style="border-top: 1px solid rgba(255,255,255,0.05);">
-          <q-btn outline rounded label="Cerrar" color="secondary" v-close-popup class="q-px-lg mystic-btn" />
+        <q-card-actions align="right" class="q-pa-md">
+          <q-btn flat label="Cerrar" color="grey-4" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -287,7 +281,13 @@ const handleDailyReading = async () => {
   color: #cfd4ff;
   font-size: 0.92rem;
   line-height: 1.4;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+.info-btn {
+  width: 100%;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(224, 146, 255, 0.95), rgba(186, 80, 255, 0.9));
 }
 
 .glassmoon-img {

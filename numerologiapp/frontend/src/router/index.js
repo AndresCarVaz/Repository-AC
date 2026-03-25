@@ -21,6 +21,27 @@ const routes = [
                 path: 'pagos',
                 name: 'payments',
                 component: () => import('../views/PaymentsView.vue')
+            },
+            {
+                path: 'admin',
+                name: 'admin',
+                component: () => import('../views/AdminView.vue'),
+                meta: { requiresAdmin: true }
+            },
+            {
+                path: 'pagos/exito',
+                name: 'payment-success',
+                component: () => import('../views/PaymentResultView.vue')
+            },
+            {
+                path: 'pagos/fallo',
+                name: 'payment-failure',
+                component: () => import('../views/PaymentResultView.vue')
+            },
+            {
+                path: 'pagos/pendiente',
+                name: 'payment-pending',
+                component: () => import('../views/PaymentResultView.vue')
             }
         ]
     },
@@ -67,6 +88,10 @@ router.beforeEach(async (to, from, next) => {
             return next({ name: 'login' });
         }
         return next();
+    }
+
+    if (to.meta.requiresAdmin && !authStore.isAdmin) {
+        return next({ name: 'dashboard' });
     }
 
     // If user is logged in and tries to access auth pages, redirect to dashboard

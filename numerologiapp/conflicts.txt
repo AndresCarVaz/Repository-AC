@@ -1,0 +1,9 @@
+﻿numerologiapp/backend/helpers/ai.js
+numerologiapp/frontend/src/css/app.scss
+numerologiapp/frontend/src/layouts/AuthLayout.vue
+numerologiapp/frontend/src/layouts/MainLayout.vue
+numerologiapp/frontend/src/main.js
+numerologiapp/frontend/src/styles/quasar.variables.scss
+numerologiapp/frontend/src/views/DashboardView.vue
+numerologiapp/frontend/src/views/LoginView.vue
+numerologiapp/frontend/src/views/PaymentsView.vue

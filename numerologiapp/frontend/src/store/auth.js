@@ -10,6 +10,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     const isLoggedIn = computed(() => !!token.value);
     const isMemberActive = computed(() => user.value?.estado === 'activo');
+    const isAdmin = computed(() => user.value?.role === 'ADMIN_ROLE');
 
     const setUser = (userData, tokenData) => {
         user.value = userData;
@@ -73,7 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     return {
         user, token, loading, error,
-        isLoggedIn, isMemberActive,
+        isLoggedIn, isMemberActive, isAdmin,
         login, register, renewToken, logout, refreshUser
     };
 });

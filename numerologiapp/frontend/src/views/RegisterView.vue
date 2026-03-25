@@ -34,6 +34,7 @@
             label="Fecha de nacimiento"
             outlined
             dense
+            stack-label
             :rules="[val => !!val || 'La fecha de nacimiento es requerida']"
           />
 
@@ -121,5 +122,10 @@ const handleRegister = async () => {
 
 .logo-icon {
   font-size: 3rem;
+}
+
+/* Hacer que el ícono nativo del calendario sea blanco */
+:deep(input[type="date"]::-webkit-calendar-picker-indicator) {
+  filter: invert(1);
 }
 </style>

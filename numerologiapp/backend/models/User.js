@@ -6,6 +6,7 @@ const UserSchema = Schema({
     password: { type: String, required: [true, 'La contraseña es obligatoria'] },
     fecha_nacimiento: { type: Date, required: [true, 'La fecha de nacimiento es obligatoria'] },
     estado: { type: String, enum: ['activo', 'inactivo'], default: 'inactivo' },
+    role: { type: String, enum: ['USER_ROLE', 'ADMIN_ROLE'], default: 'USER_ROLE' },
     fecha_registro: { type: Date, default: Date.now }
 });
 

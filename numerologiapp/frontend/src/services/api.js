@@ -15,4 +15,14 @@ api.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
+// Interceptor to handle 401 responses globally
+api.interceptors.response.use((response) => response, (error) => {
+    if (error.response && error.response.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.hash = '#/auth/login';
+    }
+    return Promise.reject(error);
+});
+
 export default api;

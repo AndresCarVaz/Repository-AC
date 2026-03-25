@@ -32,10 +32,44 @@
       </q-card-section>
     </q-card>
 
-    <!-- Payment Form -->
+    <!-- Payment Section -->
     <div class="row q-gutter-lg justify-center q-mb-xl">
+
+      <!-- Mercado Pago Card -->
       <div class="col-12 col-md-5">
-        <h3 class="font-cinzel text-white q-mb-md">Registrar Pago</h3>
+        <h3 class="font-cinzel text-white q-mb-md">Pagar Membresía</h3>
+        <q-card class="mystic-card mp-card" flat>
+          <q-card-section class="q-pa-lg text-center">
+            <div class="mp-logo q-mb-md">💳</div>
+            <p class="text-grey-3 text-weight-medium q-mb-xs">Membresía Mensual Numeris</p>
+            <p class="text-h5 text-white text-weight-bold q-mb-md">$25,000 COP</p>
+            <p class="text-grey-5 text-caption q-mb-lg">
+              Acceso completo por 30 días · Pago seguro con Mercado Pago
+            </p>
+            <q-btn
+              label="Pagar con Mercado Pago"
+              unelevated
+              rounded
+              class="full-width mp-btn text-weight-bold"
+              :loading="loadingMP"
+              size="md"
+              padding="14px"
+              icon="payment"
+              @click="pagarConMP"
+            />
+            <q-card class="q-mt-md" flat style="background: rgba(255,255,255,0.04); border-radius:10px; padding:10px;">
+              <div class="text-grey-5 text-caption text-center">
+                <q-icon name="lock" size="xs" class="q-mr-xs" />
+                Pago procesado de forma segura por Mercado Pago
+              </div>
+            </q-card>
+          </q-card-section>
+        </q-card>
+      </div>
+
+      <!-- Manual / Admin Form -->
+      <div class="col-12 col-md-5">
+        <h3 class="font-cinzel text-white q-mb-md">Registrar Pago Manual</h3>
         <q-card class="mystic-card" flat>
           <q-card-section class="q-pa-lg">
             <q-form @submit.prevent="handlePayment" class="q-gutter-md">
@@ -98,7 +132,7 @@
       </div>
 
       <!-- Payment History -->
-      <div class="col-12 col-md-6">
+      <div class="col-12">
         <h3 class="font-cinzel text-white q-mb-md">Historial de Pagos</h3>
 
         <div v-if="loadingHistory" class="text-center q-py-xl">
@@ -142,6 +176,7 @@ import { ref, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { useAuthStore } from '../store/auth';
 import api from '../services/api';
+import { crearPreferenciaPago } from '../services/mercadopago';
 
 const authStore = useAuthStore();
 const $q = useQuasar();
@@ -149,6 +184,7 @@ const $q = useQuasar();
 const payments = ref([]);
 const loadingHistory = ref(true);
 const loadingPayment = ref(false);
+const loadingMP = ref(false);
 
 const paymentForm = ref({ monto: 25.00, metodo: null });
 const paymentMethods = ['Tarjeta de crédito', 'Tarjeta de débito', 'PayPal', 'Transferencia bancaria', 'Mercadopago '];
@@ -188,6 +224,19 @@ const handlePayment = async () => {
   }
 };
 
+const pagarConMP = async () => {
+  loadingMP.value = true;
+  try {
+    const data = await crearPreferenciaPago(25000);
+    // En sandbox usamos sandbox_init_point, en producción usar init_point
+    const checkoutUrl = data.sandbox_init_point || data.init_point;
+    window.location.href = checkoutUrl;
+  } catch (err) {
+    $q.notify({ type: 'negative', message: err.response?.data?.msg || 'Error al conectar con Mercado Pago' });
+    loadingMP.value = false;
+  }
+};
+
 onMounted(fetchPayments);
 </script>
 
@@ -211,6 +260,26 @@ onMounted(fetchPayments);
   transition: all 0.2s ease;
   &:hover {
     transform: translateX(4px);
+  }
+}
+
+.mp-card {
+  border-color: rgba(0, 159, 227, 0.35) !important;
+  background: rgba(0, 159, 227, 0.06) !important;
+}
+
+.mp-logo {
+  font-size: 3rem;
+}
+
+.mp-btn {
+  background: linear-gradient(135deg, #009FE3 0%, #00C4FF 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 20px rgba(0, 159, 227, 0.4);
+  transition: all 0.3s ease;
+  &:hover {
+    box-shadow: 0 6px 28px rgba(0, 159, 227, 0.6);
+    transform: translateY(-1px);
   }
 }
 </style>
