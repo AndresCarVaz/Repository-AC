@@ -6,58 +6,66 @@ const axios = require('axios');
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
- * Genera una lectura numerológica usando OpenRouter API.
- * Incluye retry automático en caso de rate limit (429).
+ * Genera una lectura numerológica usando Google Gemini API nativa.
  * @param {string} prompt - El prompt completo para la IA
  * @returns {Promise<string>} - El texto de la lectura generado
  */
 const generateReading = async (prompt, retries = 3) => {
     const apiKey = process.env.IA_API_KEY;
-    const model = process.env.IA_MODEL || 'meta-llama/llama-3.1-8b-instruct:free';
+    
+    if (!apiKey) {
+        throw new Error('API Key de Gemini no configurada en las variables de entorno.');
+    }
 
-    const url = 'https://openrouter.ai/api/v1/chat/completions';
+    // Usamos el modelo gemini-2.5-flash (el modelo por defecto para cuentas nuevas de Google AI Studio)
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
             const response = await axios.post(url, {
-                model,
-                messages: [
-                    { role: 'user', content: prompt }
+                contents: [
+                    { parts: [{ text: prompt }] }
                 ]
             }, {
                 headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json',
-                    'HTTP-Referer': 'http://localhost:3000',
-                    'X-OpenRouter-Title': 'NumerologiApp'
+                    'Content-Type': 'application/json'
                 }
             });
 
-            const text = response.data?.choices?.[0]?.message?.content;
+            const text = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
             if (!text) {
-                throw new Error('La IA no devolvió ningún contenido');
+                throw new Error('La IA no devolvió ningún contenido.');
             }
 
             return text;
         } catch (error) {
-            const status = error?.response?.status;
-
-            if (status === 429 && attempt < retries) {
-                const retryAfterHeader = error?.response?.headers?.['retry-after'];
-                const retryDelaySec = retryAfterHeader || (attempt * 20);
-                const waitMs = (parseInt(retryDelaySec, 10) + 2) * 1000;
-                console.log(`[AI] Rate limit (429). Reintentando en ${waitMs / 1000}s... (intento ${attempt}/${retries})`);
-                await sleep(waitMs);
+            const status = error?.response?.status || 'Desconocido';
+            const errorMsg = error?.response?.data?.error?.message || error.message;
+            console.log(`[AI Gemini] Error en intento ${attempt}/${retries}: ${status} - ${errorMsg}`);
+            
+            // Si es error de rate limit (429) o cuota excedida
+            if (status === 429) {
+                console.log(`[AI Gemini] Rate limit (429). Esperando 5s...`);
+                await sleep(5000);
                 continue;
             }
 
-            // Si no es 429 recuperable, relanzar el error
-            throw error;
+            // Si llegamos al límite de reintentos lanzamos un error claro
+            if (attempt === retries) {
+                throw new Error(`Fallo final Gemini API: ${errorMsg}`);
+            }
+            
+            // Reintentar ante posibles errores 5xx
+            if (status !== 400 && status !== 403) {
+                await sleep(2000);
+            } else {
+                 throw new Error(`Error Gemini: ${errorMsg}`);
+            }
         }
     }
 
-    throw new Error('No se pudo generar la lectura: se alcanzó el límite de reintentos.');
+    throw new Error('No se pudo generar la lectura después de varios intentos.');
 };
 
 /**
