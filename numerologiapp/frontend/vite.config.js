@@ -20,8 +20,5 @@ export default defineConfig({
   server: {
     port: 8080,
     open: true
-  },
-  define: {
-    'process.env.API_URL': JSON.stringify(process.env.API_URL || 'http://localhost:3000/api')
   }
 });
