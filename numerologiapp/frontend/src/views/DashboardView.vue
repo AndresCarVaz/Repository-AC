@@ -22,7 +22,7 @@
           @mouseleave="() => resetTilt(1)"
           @click="handleMainReading"
         >
-          <img src="src/assets/ballred.png" alt="Ball Roja" class="glassmoon-img" />
+          <img src="/ballred.png" alt="Ball Roja" class="glassmoon-img" />
           <div class="glassmoon-info">
             <div class="info-title">Lectura Principal</div>
             <div class="info-desc">Tu perfil numerológico completo basado en tu fecha de nacimiento</div>
@@ -48,7 +48,7 @@
           @mouseleave="() => resetTilt(0)"
           @click="handleDailyReading"
         >
-          <img src="src/assets/ball.png" alt="Ball Azul" class="glassmoon-img" />
+          <img src="/ball.png" alt="Ball Azul" class="glassmoon-img" />
           <div class="glassmoon-info">
             <div class="info-title">Lectura Diaria</div>
             <div class="info-desc">La energía y consejo numerológico especial para el día de hoy</div>

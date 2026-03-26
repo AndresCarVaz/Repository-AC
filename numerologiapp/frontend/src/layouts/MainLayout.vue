@@ -10,7 +10,7 @@
         <q-btn flat round dense icon="menu" @click="drawer = !drawer" class="text-white" />
 
         <q-toolbar-title class="font-cinzel text-white row items-center no-wrap" style="font-size: 1.1rem; font-weight: 700;">
-          <img src="../assets/mainicon.png" alt="Logo" style="height: 32px; margin-right: 12px; margin-bottom: 2px;" />
+          <img src="/logo.png" alt="Logo" style="height: 32px; margin-right: 12px; margin-bottom: 2px;" />
           Numerología IA
         </q-toolbar-title>
 

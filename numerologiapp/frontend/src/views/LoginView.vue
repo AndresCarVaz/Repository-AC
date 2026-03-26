@@ -2,7 +2,7 @@
   <q-page class="auth-page flex flex-center">
     <q-card class="auth-card">
       <q-card-section class="text-center">
-        <img src="src/assets/mainicon.png" alt="Logo Numerología" class="logo-icon" />
+        <img src="/logo.png" alt="Logo Numerología" class="logo-icon" />
         <div class="text-h5 q-mt-sm">Numerología IA</div>
         <div class="text-subtitle2 text-grey-6 q-mt-xs">Descubre los secretos del universo numérico</div>
       </q-card-section>
